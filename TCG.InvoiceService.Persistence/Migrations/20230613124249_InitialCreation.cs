@@ -56,7 +56,7 @@ namespace TCG.InvoiceService.Persistence.Migrations
                     Received = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     GivenFidelityPoint = table.Column<int>(type: "int", nullable: false),
                     ShipAddress = table.Column<string>(type: "longtext", nullable: false),
-                    MerchPostId = table.Column<int>(type: "int", nullable: false),
+                    MerchPostId = table.Column<Guid>(type: "char(36)", nullable: false),
                     SellerId = table.Column<int>(type: "int", nullable: false),
                     BuyerId = table.Column<int>(type: "int", nullable: false),
                     OrderStateId = table.Column<string>(type: "char(1)", nullable: false)

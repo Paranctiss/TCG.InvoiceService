@@ -11,8 +11,8 @@ using TCG.InvoiceService.Persistence;
 namespace TCG.InvoiceService.Persistence.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20230611160711_MerchpostGuid")]
-    partial class MerchpostGuid
+    [Migration("20230613124249_InitialCreation")]
+    partial class InitialCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

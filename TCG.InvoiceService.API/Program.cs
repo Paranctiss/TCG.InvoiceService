@@ -16,8 +16,17 @@ builder.Services.AddApplication();
 builder.Services.AddMapper();
 builder.Services.AddMassTransitWithRabbitMQ();
 
-var app = builder.Build();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .WithOrigins("http://localhost:8100")
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
 
+var app = builder.Build();
+app.UseCors("CorsPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

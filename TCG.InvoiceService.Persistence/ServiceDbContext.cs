@@ -15,7 +15,7 @@ public class ServiceDbContext : DbContext
     public ServiceDbContext(DbContextOptions<ServiceDbContext> options, IConfiguration configuration) : base(options)
     {
         _configuration = configuration;
-        Database.EnsureCreated();
+        Database.Migrate();
     }
 
     public DbSet<Dispute> Disputes { get; set; }

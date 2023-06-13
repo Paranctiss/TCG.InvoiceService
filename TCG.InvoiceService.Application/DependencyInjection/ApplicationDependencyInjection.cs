@@ -46,8 +46,8 @@ public static class ApplicationDependencyInjection
                     retryConfig.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(3));
                 });
                 
-                // Message Redelivery/Dead-lettering
-                configurator.UseScheduledRedelivery(r => r.Incremental(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5)));
+                // // Message Redelivery/Dead-lettering
+                // configurator.UseScheduledRedelivery(r => r.Incremental(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5)));
                 // configurator.ReceiveEndpoint("my-dead-letter-queue", e =>
                 // {
                 //     e.ConfigureConsumer<DeadLetterEventConsumer>(context);
