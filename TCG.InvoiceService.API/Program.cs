@@ -1,4 +1,5 @@
 ﻿using MapsterMapper;
+using TCG.Common.Middlewares.MiddlewareException;
 using TCG.Common.MySqlDb;
 using TCG.InvoiceService.Application.DependencyInjection;
 using TCG.InvoiceService.Persistence;
@@ -35,6 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseAuthorization();
 

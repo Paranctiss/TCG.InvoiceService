@@ -47,7 +47,9 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
                 SellerId = request.OrderDtoRequest.SellerId,
                 BuyerId = request.OrderDtoRequest.BuyerId,
                 MerchPostId = request.OrderDtoRequest.MerchPostId,
-                OrderStateId = request.OrderDtoRequest.StateId
+                OrderStateId = request.OrderDtoRequest.StateId,
+                ShipmentFee = request.OrderDtoRequest.ShipmentFee,
+                TotalPrice = request.OrderDtoRequest.TotalPrice
             };
 
             await _orderRepository.ExecuteInTransactionAsync(async() =>

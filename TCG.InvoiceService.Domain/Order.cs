@@ -8,9 +8,9 @@ public class Order
     public DateTime BuyDate{ get; set; } = DateTime.Now;
     public DateTime ShipDate{ get; set; }
     public DateTime DeliveryDate{ get; set; }
-    public Decimal ServiceFee{ get; set; }
-    public Decimal ShipmentFee{ get; set; }
-    public Decimal TotalPrice{ get; set; }
+    public decimal ServiceFee{ get; set; }
+    public decimal ShipmentFee{ get; set; }
+    public decimal TotalPrice{ get; set; }
     public bool Received { get; set; }
     public int GivenFidelityPoint { get; set; }
     public string ShipAddress { get; set; }

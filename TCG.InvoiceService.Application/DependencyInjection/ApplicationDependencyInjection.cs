@@ -57,6 +57,7 @@ public static class ApplicationDependencyInjection
                 configurator.ConfigureEndpoints(context);
             });
             configure.AddRequestClient<PostCreated>();
+            configure.AddRequestClient<BuyerTransaction>();
         });
         //Start rabbitmq bus pour exanges
         serviceCollection.AddMassTransitHostedService();
