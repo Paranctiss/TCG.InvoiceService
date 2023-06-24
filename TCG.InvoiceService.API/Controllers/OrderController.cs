@@ -10,7 +10,7 @@ namespace TCG.InvoiceService.API.Controllers;
 [Route("[controller]")]
 public class OrderController : ControllerBase
 {
-    private readonly MediatR.IMediator _mediator;
+    private readonly IMediator _mediator;
 
     public OrderController(IMediator mediator)
     {
@@ -26,10 +26,21 @@ public class OrderController : ControllerBase
         return Ok();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllTransationsByUser(int buyerId, CancellationToken cancellationToken)
+    [HttpGet("transaction/buyer")]
+    public async Task<IActionResult> GetBuyerTransactions(int buyerId, CancellationToken cancellationToken)
     {
         var transactions = await _mediator.Send(new GetBuyerOrderQuery(buyerId), cancellationToken);
+        if (transactions == null)
+        {
+            return NotFound();
+        }
+        return Ok(transactions);
+    }
+    
+    [HttpGet("transaction/seller")]
+    public async Task<IActionResult> GetSellerTransactions(int sellerId, CancellationToken cancellationToken)
+    {
+        var transactions = await _mediator.Send(new GetSellerOrderQuery(sellerId), cancellationToken);
         if (transactions == null)
         {
             return NotFound();

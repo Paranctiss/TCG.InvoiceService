@@ -18,5 +18,10 @@ public class OrderRepository : Repository<Order>, IOrderRepository
     {
         return await _dbContext.Orders.Where(u => u.BuyerId == buyerId).ToListAsync();
     }
+    
+    public async Task<IEnumerable<Order>> GetSellerTransaction(CancellationToken cancellationToken, int sellerId)
+    {
+        return await _dbContext.Orders.Where(u => u.SellerId == sellerId).ToListAsync();
+    }
 
 }
