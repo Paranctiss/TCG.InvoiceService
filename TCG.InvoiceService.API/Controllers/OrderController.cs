@@ -47,4 +47,26 @@ public class OrderController : ControllerBase
         }
         return Ok(transactions);
     }
+    
+    [HttpGet("transaction/buyer/{orderId}")]
+    public async Task<IActionResult> GetBuyedTransactionDetail(int orderId, CancellationToken cancellationToken)
+    {
+        var transaction = await _mediator.Send(new GetBuyedOrderDetailQuery(orderId), cancellationToken);
+        if (transaction == null)
+        {
+            return NotFound();
+        }
+        return Ok(transaction);
+    }
+    
+    [HttpGet("transaction/seller/{orderId}")]
+    public async Task<IActionResult> GetSelledTransactionDetail(int orderId, CancellationToken cancellationToken)
+    {
+        var transaction = await _mediator.Send(new GetSelledOrderDetailQuery(orderId), cancellationToken);
+        if (transaction == null)
+        {
+            return NotFound();
+        }
+        return Ok(transaction);
+    }
 }
