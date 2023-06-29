@@ -46,6 +46,7 @@ public class GetSellerOrderQueryHandler : IRequestHandler<GetSellerOrderQuery, I
             {
                 var merchNameDto = merchPostNamesDeserialized.FirstOrDefault(x => x.MerchPostId == order.MerchPostId);
                 order.MerchPostName = merchNameDto.MerchPostName;
+                order.TotalWithShip = order.TotalPrice + order.ShipmentFee;
                 order.MerchPostNamePhotos = merchNameDto.MerchPostNamePhotos;
                 _logger.LogInformation("Transactions has been mapped");
             });
