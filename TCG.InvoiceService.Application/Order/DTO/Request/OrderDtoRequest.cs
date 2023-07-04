@@ -6,7 +6,7 @@ public class OrderDtoRequest
 {
     public string ShipAddress { get; set; }
     public Guid MerchPostId { get; set; }
-    public int ShipmentFee { get; set; }
+    public decimal ShipmentFee { get; set; }
     public int SellerId { get; set; }
     public int BuyerId { get; set; }
     public decimal TotalPrice { get; set; }
