@@ -54,12 +54,12 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
 
             await _orderRepository.ExecuteInTransactionAsync(async() =>
             {
-                await _orderRepository.AddAsync(order, cancellationToken);
-
                 //Rabbit
-                var statusMessage = new OrderStatusChanged(order.MerchPostId, order.OrderStateId);
+                var statusMessage = new CreateOrderMessage(order.Id,order.MerchPostId, order.OrderStateId, order.BuyerId);
                 await _publishEndpoint.Publish(statusMessage, cancellationToken);
                 
+                await _orderRepository.AddAsync(order, cancellationToken);
+
                 var invoiceHead = new InvoiceHead
                 {
                     Date = DateTime.Now,

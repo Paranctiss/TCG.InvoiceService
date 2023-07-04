@@ -3,11 +3,13 @@ using GreenPipes;
 using Mapster;
 using MapsterMapper;
 using MassTransit;
+using MassTransit.Saga;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TCG.Common.MassTransit.Messages;
 using TCG.Common.Settings;
+using TCG.InvoiceService.Application.Order.Saga;
 
 namespace TCG.InvoiceService.Application.DependencyInjection;
 
@@ -32,13 +34,14 @@ public static class ApplicationDependencyInjection
         //Config masstransit to rabbitmq
         serviceCollection.AddMassTransit(configure =>
         {
+            configure.AddSagaStateMachine<OrderStateMachine, OrderStateInstance>().InMemoryRepository();
             configure.UsingRabbitMq((context, configurator) =>
             {
                 var config = context.GetService<IConfiguration>();
                 ////On recupère la config de seeting json pour rabbitMQ
                 var rabbitMQSettings = config.GetSection(nameof(RabbitMQSettings)).Get<RabbitMQSettings>();
                 configurator.Host(new Uri(rabbitMQSettings.Host));
-                configurator.ConfigureEndpoints(context);
+                
                 // Retry policy for consuming messages
                 configurator.UseMessageRetry(retryConfig =>
                 {
@@ -46,6 +49,10 @@ public static class ApplicationDependencyInjection
                     retryConfig.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(3));
                 });
                 
+                configurator.ReceiveEndpoint("order-state", e =>
+                {
+                    e.StateMachineSaga(context.GetService<OrderStateMachine>(), new InMemorySagaRepository<OrderStateInstance>());
+                });
                 // // Message Redelivery/Dead-lettering
                 // configurator.UseScheduledRedelivery(r => r.Incremental(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(5)));
                 // configurator.ReceiveEndpoint("my-dead-letter-queue", e =>
@@ -54,7 +61,6 @@ public static class ApplicationDependencyInjection
                 // });
                 
                 //Defnir comment les queues sont crées dans rabbit
-                configurator.ConfigureEndpoints(context);
             });
             configure.AddRequestClient<PostCreated>();
             configure.AddRequestClient<UserById>();

@@ -1,4 +1,5 @@
 ﻿using MapsterMapper;
+using TCG.Common.Logging;
 using TCG.Common.Middlewares.MiddlewareException;
 using TCG.Common.MySqlDb;
 using TCG.InvoiceService.Application.DependencyInjection;
@@ -10,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.AddSerilogLogging();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddPersistence<ServiceDbContext>(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
